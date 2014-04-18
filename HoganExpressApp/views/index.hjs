@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+<!--    <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+    <link rel='stylesheet' href='/app/bower_components/bootstrap/dist/css/bootstrap.css' />
+  </head>
+  <body>
+
+  <ul id="pageNavBar" class="nav nav-pills">
+      <li id="pageNavBar-home"  class="active"><a href="#">Home</a></li>
+      <li id="pageNavBar-profile"><a href="#">Profile</a></li>
+      <li id="pageNavBar-messages"><a href="#">Messages</a></li>
+  </ul>
+
+    <h1>{{ title }}</h1>
+    <p>Welcome to {{ title }}</p>
+
+    <div id="pageContent">
+
+    </div>
+
+   <script src="/app/bower_components/jquery/dist/jquery.js"></script>
+   <script src="/app/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+   <script src="/app/bower_components/requirejs/require.js" data-main="app/js/main.js"></script>
+   <script src="/app/js/templates.js"></script>
+
+  </body>
+</html>

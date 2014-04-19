@@ -77,6 +77,8 @@ define(function (require) {
               var li = $(e.target).closest('li');
               this.ActivateLi(li);
 
+              //comment
+              
               if (li.is(this.select('pageNavBarProf'))) {
                   profile.attachTo('#profilePage');
               }

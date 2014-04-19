@@ -22,7 +22,9 @@ define(function (require) {
     function pageSelect() {
 
      this.defaultAttrs({
+         pageNavBar: '#pageNavBar',
          pageNavBarHome: '#pageNavBar-home',
+         pageNavBarUsers: '#pageNavBar-users',
          pageNavBarMsgs: '#pageNavBar-messages',
          pageNavBarProf: '#pageNavBar-profile'
        });
@@ -70,21 +72,15 @@ define(function (require) {
       this.after('initialize', function () {
         console.log("initialize pageSelect");
 
-        this.on(this.select('pageNavBarMsgs'), 'click', function()
-        {
-            this.ActivateLi(this.select('pageNavBarMsgs'));
-        });
+          this.on(this.$node, 'click', function(e)
+          {
+              var li = $(e.target).closest('li');
+              this.ActivateLi(li);
 
-        this.on(this.select('pageNavBarHome'), 'click', function()
-        {
-            this.ActivateLi(this.select('pageNavBarHome'));
-        });
-
-        this.on(this.select('pageNavBarProf'), 'click', function()
-        {
-            this.ActivateLi(this.select('pageNavBarProf'));
-            profile.attachTo('#profilePage');
-        });
+              if (li.is(this.select('pageNavBarProf'))) {
+                  profile.attachTo('#profilePage');
+              }
+          });
 
         this.ActivateLiInit();
     });

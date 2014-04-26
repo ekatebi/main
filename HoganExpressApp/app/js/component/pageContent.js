@@ -21,8 +21,12 @@ define(function (require) {
 //  var templates = require('js/templates');
 
     function pageContent() {
+
     this.defaultAttrs({
-        content: "#content"
+//        content: "#pageContent",
+//        HomeParent: "#HomeParent",
+//        ProfileParent: "#ProfileParent",
+//        MessagesParent: "#MessagesParent"
     });
 
       this.render = function(NameOfTemplate, parameters) {
@@ -37,23 +41,52 @@ define(function (require) {
 
 // -> 'I am <em>Hulk</em>, I like Wrestling!';
 
-          $('#pageContent').html(renderedTemplate);
+//          $('#pageContent').html(renderedTemplate);
+
+          var divId = "#"+NameOfTemplate+"Parent";
+
+          console.log("render: " + divId);
+
+          $(divId).html(renderedTemplate);
       }
 
-      this.onPageSelectChanged = function (e, data) {
+      this.ShowSelectedPage = function(name)
+      {
+            console.log("ShowSelection: " + name + " chilren count: " + this.$node.children().length);
 
-          console.log("uiPageSelectChanged fired!!!");
-          console.log(data);
+            var comp = this;
 
-//          this.$node.text(data.val);
+            this.$node.children().each(function(index, element){
 
-          this.render(data.selection, {name: data.selection});
+//                var theName = '[name=' + name + "PageName]";
+//                if ($(element).is($(theName)))
+                var id = name + "Page";
+                if ($(element).is($('#' + id)))
+                {
+                    //uiActivateUsersPage
+                    var eventName = 'ui' + 'Activate' + $(element).attr('id');
+                    console.log('trigger: ' + eventName +  ' - ' + $(element).attr('id') );
+                    comp.trigger(eventName);
 
-      };
+                }
+                else
+                {
+                    //uiDeactivateUsersPage
+                    var eventName = 'ui' + 'Deactivate' + $(element).attr('id');
+                    console.log('trigger: ' + eventName +  ' - ' + $(element).attr('id') );
+                    comp.trigger(eventName);
+                }
+            });
+        }
+
+        this.onPageSelectChanged = function (e, data)
+        {
+          this.ShowSelectedPage(data.selection);
+        }
 
       this.after('initialize', function () {
           console.log("initialize pageContent");
-        this.on(document, 'uiPageSelectChanged', this.onPageSelectChanged);
+          this.on(document, 'uiPageSelectChanged', this.onPageSelectChanged);
     });
   }
 

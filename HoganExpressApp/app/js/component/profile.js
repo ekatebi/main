@@ -26,16 +26,19 @@ define(function (require) {
           profilePage: '#profilePage'
       });
 
-      this.initForm = function()
+      this.render = function(parameters)
       {
-          var NameOfTemplate = 'Profile';
-          var parameters = {firstName: 'Ed', lastName: 'Katebi', phone: '(978) 855-2991', email: 'ekatebi@gmail.com' };
+          var NameOfTemplate = 'ProfileModalEx';
           var renderedTemplate = templates[NameOfTemplate].render(parameters);
 
-// -> 'I am <em>Hulk</em>, I like Wrestling!';
+          this.$node.html(renderedTemplate);
 
-          $('#profilePage').html(renderedTemplate);
-//          this.select('profilePage').html(renderedTemplate);
+          var options = {
+              "backdrop" : "static"
+          }
+
+          $('#profilePage').modal(options);
+
       }
 
       this.onSaveClick = function() {
@@ -59,7 +62,7 @@ define(function (require) {
                           alert("page not found");
                       },
                       200: function () {
-                          alert("success");
+//                          alert("success");
                       },
                       500: function () {
                               alert("server exception");
@@ -69,8 +72,24 @@ define(function (require) {
           );
       };
 
+      this.activate = function()
+      {
+          console.log('activate profile page');
+          var parameters = {firstName: 'Ed', lastName: 'Katebi', phone: '(978) 855-2991', email: 'ekatebi@gmail.com' };
+          this.render(parameters);
+          this.$node.show();
+      }
+
+      this.deactivate = function()
+      {
+          console.log('deactivate profile page');
+          this.$node.hide();
+      }
+
     this.after('initialize', function () {
-        this.initForm();
+//        this.render(null);
+        this.on(document,"uiActivateProfilePage", this.activate);
+        this.on(document,"uiDeactivateProfilePage", this.deactivate);
         this.on(this.select('saveButtonId'),'click', this.onSaveClick);
     });
   }

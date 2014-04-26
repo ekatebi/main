@@ -36,7 +36,7 @@ define(function (require) {
 
               if (li.is($(element)))
               {
-                  console.log("activate " + index + " " + $(element).text());
+//                  console.log("activate " + index + " " + $(element).text());
                   $(element).addClass('active');
 
                   comp.trigger('uiPageSelectChanged', {
@@ -44,7 +44,7 @@ define(function (require) {
                   });
               }
               else {
-                  console.log("deactivate " + index + " " + $(element).text());
+//                  console.log("deactivate " + index + " " + $(element).text());
                   $(element).removeClass('active');
               }
           });
@@ -57,7 +57,7 @@ define(function (require) {
 
               if ($(element).hasClass('active'))
               {
-                  console.log("activate " + index + " " + $(element).text());
+//                  console.log("activate " + index + " " + $(element).text());
                   $(element).addClass('active');
 
                   comp.trigger('uiPageSelectChanged', {
@@ -70,18 +70,19 @@ define(function (require) {
       }
 
       this.after('initialize', function () {
+
         console.log("initialize pageSelect");
 
-          this.on(this.$node, 'click', function(e)
+//          this.on(this.$node, 'click', function(e)
+          this.on('click', function(e)
           {
               var li = $(e.target).closest('li');
               this.ActivateLi(li);
 
-              //comment
-              
               if (li.is(this.select('pageNavBarProf'))) {
                   profile.attachTo('#profilePage');
               }
+//              this.trigger('dataUserDelete', {id: '5'});
           });
 
         this.ActivateLiInit();

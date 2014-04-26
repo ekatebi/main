@@ -1,3 +1,46 @@
-<div id="UsersPage">
-This is the <em>{{name}}</em> page. (Users.mustache)
+<!-- This is the <em>{{name}}</em> page. (Users.mustache) -->
+
+<a id="createUser" href="#"
+   data-toggle="modal"
+   data-target="#basicModal">Create User</a>
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">Panel heading</div>
+
+    <table class="table">
+
+        <tr>
+            <td><b>#</b></td>
+            <td><b>First Name</b></td>
+            <td><b>Last Name</b></td>
+            <td><b>email</b></td>
+        </tr>
+
+    {{#users}}
+        <tr>
+            <td>
+                <b>{{@index}}</b>
+            </td>
+            <td>
+                <b>{{firstname}}</b>
+            </td>
+            <td>
+                <b>{{lastname}}</b>
+            </td>
+            <td>
+                <b>{{email}}</b>
+            </td>
+            <td><a href="#" class="editUser" data-user_db_id="{{_id}}">Edit</a></td>
+            <td><a href="#" class="delUser" data-user_db_id="{{_id}}">Delete</a></td>
+        </tr>
+    {{/users}}
+
+</table>
+
 </div>
+
+<div id="ProfilePage">
+    <p></p>
+</div>
+

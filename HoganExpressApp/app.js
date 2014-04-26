@@ -1,3 +1,5 @@
+var mongo = require('mongodb');
+var monk = require('monk');
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -8,6 +10,10 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var profile = require('./routes/profile');
+
+//var db =  monk('localhost:27017/test');
+
+//var db = require('monk')('localhost/test');
 
 var app = express();
 

@@ -7,17 +7,40 @@
   </head>
   <body>
 
+    <div class="container">
+
+<br/>
+<br/>
+
+    <div class="row">
+
   <ul id="pageNavBar" class="nav nav-pills">
       <li id="pageNavBar-home"  class="active"><a href="#">Home</a></li>
-      <li id="pageNavBar-profile"><a href="#">Profile</a></li>
+      <li id="pageNavBar-users"><a href="#">Users</a></li>
+<!--      <li id="pageNavBar-profile"><a href="#">Profile</a></li> -->
       <li id="pageNavBar-messages"><a href="#">Messages</a></li>
   </ul>
 
+  </div>
+
+<!--
     <h1>{{ title }}</h1>
     <p>Welcome to {{ title }}</p>
+-->
+<br/>
+<br/>
 
-    <div id="pageContent">
-
+    <div id="pageContent" class="row">
+        <div id="HomePage" class="span4">
+            <p></p>
+        </div>
+        <div id="UsersPage" class="span4">
+            <p></p>
+        </div>
+        <div id="MessagesPage" class="span4">
+            <p></p>
+        </div>
+    </div>
     </div>
 
    <script src="/app/bower_components/jquery/dist/jquery.js"></script>

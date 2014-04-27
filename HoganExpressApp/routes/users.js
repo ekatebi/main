@@ -13,6 +13,7 @@ router.get('/', function(req, res) {
     users.find({}, function (err, docs)
     {
         if (err) throw err;
+//        console.log(docs);
         res.send(docs);
     });
 });

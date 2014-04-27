@@ -118,7 +118,7 @@ define(function (require) {
                   type: 'GET',
                   url: url,
                   success: function(users) {
-                      comp.trigger('dataUsersReady', users);
+                      comp.trigger('dataUsersReady', [ users ]);
                   },
                   error: function(XMLHttpRequest, textStatus, errorThrown) {
                       comp.triggerError( 'getUsers,', textStatus, errorThrown);

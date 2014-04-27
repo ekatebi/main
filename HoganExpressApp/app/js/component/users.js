@@ -31,19 +31,21 @@ define(function (require) {
           formElement: 'form'
       });
 
-      this.render = function (data) {
-          console.log('users: render');
-//          this.getUsers();
-          var name = 'Users';
-          var renderedTemplate = templates[name].render( {users: data});
+      this.render = function (e, data) {
+//          console.log('users: render');
+//          console.log(data);
+
+          var renderedTemplate = templates['Users'].render( {users: data});
           this.$node.html(renderedTemplate);
-          this.$node.show();
+
+          if (!this.$node.is(":visible") ) {
+              this.$node.show();
+          }
       }
 
       this.activate = function () {
           console.log('activate users page');
-          this.getUsers();
-//          this.select('profilePage').modal('hide');
+          this.trigger('dataUsers');
       }
 
       this.deactivate = function () {
@@ -60,7 +62,6 @@ define(function (require) {
           this.renderModal(data);
       }
 
-
       this.renderModal = function (parameters)
       {
           console.log('renderModal');
@@ -69,8 +70,6 @@ define(function (require) {
           var NameOfTemplate = 'ProfileModalEx';
           var renderedTemplate = templates[NameOfTemplate].render(parameters);
 
-//          this.$node.append(renderedTemplate);
-//          this.select('ProfilePage').append(renderedTemplate);
           this.select('ProfilePage').html(renderedTemplate);
 
           var options = {
@@ -100,62 +99,15 @@ define(function (require) {
 
       }
 
-      this.getUsers = function()
-      {
-          var comp = this;
-
-          $.ajax(
-              {
-                  type: 'GET',
-                  url: '/users',
-//                  dataType: 'json',
-                  success: function(users) {
-//                      console.log(users);
-                      comp.render(users);
-                  },
-                  error: function(XMLHttpRequest, textStatus, errorThrown) {
-                      alert("Status: " + textStatus);
-                      alert("Error: " + errorThrown);
-                  }
-
-                  /*
-                   statusCode: {
-                   404: function () {
-                   alert("page not found");
-                   },
-                   200: function () {
-                   //                          alert("success");
-                   },
-                   500: function () {
-                   alert("server exception");
-                   }
-                   */
-
-              }
-          );
-      }
-
       this.after('initialize', function ()
       {
           console.log('initialize users');
 
-//          this.on("dataGetUsers", this.getUsers());
-
-//          this.on(document, "uiActivateUsersPage", this.activate);
-          this.on(document, "uiActivateUsersPage", function() {
-            this.trigger('dataUsers');
-          });
-
+          this.on(document, "uiActivateUsersPage", this.activate);
           this.on(document, "uiDeactivateUsersPage", this.deactivate);
-
-          this.on(document, "dataUsersChanged", function() {
-              this.trigger('dataUsers');
-          });
-
-          this.on(document, "dataUsersReady", this.activate);
+          this.on(document, "dataUsersChanged", this.activate);
+          this.on(document, "dataUsersReady", this.render);
           this.on(document, "dataUserReady", this.editUser);
-
-          //
 
           this.on('click', function (e, data) {
 
@@ -166,15 +118,13 @@ define(function (require) {
               if (a.attr('id') == 'createUser') {
                   console.log('clicked createUser');
                   this.createUser(null);
-              }
-
+              } else
               if (a.attr('class') == 'editUser') {
                   var id = a.data('user_db_id');
                   console.log('clicked editUser: ' + id);
                   this.trigger('dataUser', {id: id});
 //                  this.editUser(data);
-              }
-
+              } else
               if (a.attr('class') == 'delUser') {
                   var id = a.data('user_db_id');
                   console.log('clicked delUser: ' + id);

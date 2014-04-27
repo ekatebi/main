@@ -9,13 +9,10 @@
                 <form id="profileForm">
                     <table>
                         <tr>
-                            <td>Id</td><td></td><td><input type="text" class="text" name="id" value="{{_id}}"></td>
+                            <td>First name</td><td></td><td><input type="text" class="text" name="firstname" value="{{firstname}}"></td>
                         </tr>
                         <tr>
-                            <td>First name</td><td></td><td><input type="text" class="text" name="firstname" value="{{firstName}}"></td>
-                        </tr>
-                        <tr>
-                            <td>Last name</td><td></td><td><input type="text" class="text" name="lastname" value="{{lastName}}"></td>
+                            <td>Last name</td><td></td><td><input type="text" class="text" name="lastname" value="{{lastname}}"></td>
                         </tr>
                         <tr>
                             <td>Phone</td><td></td><td><input type="text" class="text" name="phone" value="{{phone}}"></td>
@@ -24,6 +21,10 @@
                             <td>email</td><td></td><td><input type="text" class="text" name="email" value="{{email}}"></td>
                         </tr>
                         <tr></tr>
+                        <tr>
+                            <td></td><td><input type="hidden" class="text" name="_id" value="{{_id}}"></td>
+                            <td>{{_id}}</td>
+                        </tr>
                     </table>
                 </form>
             </div>

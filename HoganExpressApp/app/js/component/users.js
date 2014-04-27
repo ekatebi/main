@@ -6,7 +6,7 @@ define(function (require) {
    * Module dependencies
    */
 
-  var defineComponent = require('flight/lib/component');
+    var defineComponent = require('flight/lib/component');
 
   /**
    * Module exports
@@ -35,7 +35,7 @@ define(function (require) {
           console.log('users: render');
 //          this.getUsers();
           var name = 'Users';
-          var renderedTemplate = templates[name].render(data);
+          var renderedTemplate = templates[name].render( {users: data});
           this.$node.html(renderedTemplate);
           this.$node.show();
       }
@@ -43,6 +43,7 @@ define(function (require) {
       this.activate = function () {
           console.log('activate users page');
           this.getUsers();
+//          this.select('profilePage').modal('hide');
       }
 
       this.deactivate = function () {
@@ -51,17 +52,20 @@ define(function (require) {
       }
 
       this.createUser = function () {
-          var data = {firstName: 'Ed', lastName: 'Katebi', phone: '(978) 855-2991', email: 'ekatebi@gmail.com' };
+          var data = {firstname: 'Ed', lastname: 'Katebi', phone: '(978) 855-2991', email: 'ekatebi@gmail.com' };
           this.renderModal(data);
       }
 
-      this.editUser = function (data) {
+      this.editUser = function (e, data) {
           this.renderModal(data);
       }
 
 
       this.renderModal = function (parameters)
       {
+          console.log('renderModal');
+          console.log(parameters);
+
           var NameOfTemplate = 'ProfileModalEx';
           var renderedTemplate = templates[NameOfTemplate].render(parameters);
 
@@ -80,46 +84,19 @@ define(function (require) {
       {
           console.log('postProfile');
 
-          console.log(this.select('formElement'));
-          console.log(this.select('formElement').serialize());
-          console.log(this.select('formElement').serializeArray());
-
-          var postVal = JSON.stringify(this.select('formElement').serializeArray());
           var postVal2 = this.select('formElement').serializeArray();
-          console.log(postVal);
+          console.log(postVal2);
 
-          this.trigger('dataUserAddUpdate', postVal2);
-/*
-          $.ajax(
-              {
-                  type: 'POST',
-                  url: '/profile',
-                  dataType: 'json',
-                  data: postVal2,
-                  statusCode: {
-                      404: function () {
-                          alert("page not found");
-                      },
-                      200: function () {
-//                          alert("success");
-                      },
-                      500: function () {
-                          alert("server exception");
-                      }
-                  }
-              }
-          );
+          var data = postVal2;
+          var postVal = _.object(_.map(data, function(x){return [x.name, x.value]}));
+          console.log(postVal);
 
           var comp = this;
 
           this.select('profilePage').on('hidden.bs.modal', function (e) {
 //              console.log('hidden.bs.modal fired!!!');
-              comp.trigger('uiActivateUsersPage');
-          }).modal('hide');
-
-*/
-
-          this.select('profilePage').modal('hide');
+                comp.trigger('dataUsersAddUpdate', postVal);
+             }).modal('hide');
 
       }
 
@@ -171,9 +148,12 @@ define(function (require) {
 
           this.on(document, "uiDeactivateUsersPage", this.deactivate);
 
-//          this.on(document, "dataUsersChanged", this.activate);
+          this.on(document, "dataUsersChanged", function() {
+              this.trigger('dataUsers');
+          });
 
           this.on(document, "dataUsersReady", this.activate);
+          this.on(document, "dataUserReady", this.editUser);
 
           //
 
@@ -189,9 +169,10 @@ define(function (require) {
               }
 
               if (a.attr('class') == 'editUser') {
-                  var data = a.data('user_db_id');
-                  console.log('clicked editUser: ' + data);
-                  this.editUser(data);
+                  var id = a.data('user_db_id');
+                  console.log('clicked editUser: ' + id);
+                  this.trigger('dataUser', {id: id});
+//                  this.editUser(data);
               }
 
               if (a.attr('class') == 'delUser') {
@@ -202,7 +183,19 @@ define(function (require) {
               }
 
               var btn = $(e.target).closest('button');
-              if (btn.attr('id') == 'btnSaveProfile') {
+
+              if (btn.attr('name') == 'delUser') {
+                  var id = btn.data('user_db_id');
+                  console.log('clicked delUser: ' + id);
+                  this.trigger('dataUsersDelete', {id: id});
+              }
+              else if (btn.attr('name') == 'editUser') {
+                  var id = btn.data('user_db_id');
+                  console.log('clicked editUser: ' + id);
+                  this.trigger('dataUser', {id: id});
+              }
+
+              else if (btn.attr('id') == 'btnSaveProfile') {
                   console.log('clicked save profile');
                   this.postProfile();
               }

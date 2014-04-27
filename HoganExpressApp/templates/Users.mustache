@@ -1,20 +1,26 @@
 <!-- This is the <em>{{name}}</em> page. (Users.mustache) -->
 
+
+
 <a id="createUser" href="#"
    data-toggle="modal"
    data-target="#basicModal">Create User</a>
 
+[{{users.length}}]
+
 <div class="panel panel-default">
 
-    <div class="panel-heading">Panel heading</div>
+    <div class="panel-heading">App Users</div>
 
-    <table class="table">
+    <table class="table" align="center">
 
         <tr>
             <td><b>#</b></td>
             <td><b>First Name</b></td>
             <td><b>Last Name</b></td>
             <td><b>email</b></td>
+            <td><b>Edit</b></td>
+            <td><b>Delete</b></td>
         </tr>
 
     {{#users}}
@@ -31,8 +37,20 @@
             <td>
                 <b>{{email}}</b>
             </td>
+<!--
             <td><a href="#" class="editUser" data-user_db_id="{{_id}}">Edit</a></td>
             <td><a href="#" class="delUser" data-user_db_id="{{_id}}">Delete</a></td>
+-->
+            <td>
+                <button type="button" class="btn btn-default btn-md" name="editUser" data-user_db_id="{{_id}}">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </td>
+            <td>
+            <button type="button" class="btn btn-default btn-md" name="delUser" data-user_db_id="{{_id}}">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+            </td>
         </tr>
     {{/users}}
 

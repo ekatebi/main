@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var db = require('monk')('localhost/test');
+//var db = require('monk')('localhost/test');
+var db = require('monk')('localhost/myapp');
 
 /* GET users listing. */
 router.get('/', function(req, res) {
@@ -11,41 +12,58 @@ router.get('/', function(req, res) {
 
     users.find({}, function (err, docs)
     {
-        var users = { users: docs }
-
-        console.log(users);
-
-        res.send(users);
+        if (err) throw err;
+        res.send(docs);
     });
+});
 
-//    res.send('respond with a users resource');
+router.get('/:id', function(req, res) {
+
+    var id = req.params.id;
+
+    console.log('get user: ' + id);
+
+    var users = db.get('users');
+
+    users.find({_id: id}, function (err, docs)
+    {
+        if (err) throw err;
+        console.log(docs);
+        res.send(docs);
+    });
 });
 
 router.post('/:id', function(req, res) {
 
-    console.log('users post: ' + req.params.id);
+    var id = req.params.id
+    console.log('users post: ' + id);
     console.log(req.body);
 
     var users = db.get('users');
 
-    users.findAndModify(req.params.id, req.body, function (err, doc) {
+    users.findAndModify({_id: id}, req.body, function (err, doc) {
         if (err) throw err;
+        console.log(doc);
+        var msg = 'user post';
+        res.send( {msg: msg});
     });
 
-    res.send('post: respond with a profile resource');
 });
 
 router.put('/', function(req, res) {
 
+    console.log('users put');
     console.log(req.body);
 
     var users = db.get('users');
 
     users.insert(req.body, function (err, doc) {
         if (err) throw err;
+        console.log(doc);
+        var msg = 'user put';
+        res.send( {msg: msg});
     });
 
-    res.send('put: respond with user resource');
 });
 
 router.delete('/:id', function(req, res) {
@@ -56,15 +74,18 @@ router.delete('/:id', function(req, res) {
 
     var users = db.get('users');
 
-    users.remove(id, function (err, doc) {
+    if (id == 'null')
+    {
+        id = '';
+    }
+
+    users.remove({_id: id}, function (err, doc) {
         if (err) throw err;
+        var msg = 'user del: ' + id;
+        res.send( {msg: msg});
+        console.log('sent: ' + msg);
     });
 
-    var msg = 'user del: ' + id;
-
-    res.send( {msg: msg});
-
-    console.log('sent: ' + msg);
 });
 
 module.exports = router;

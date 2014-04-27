@@ -113,6 +113,7 @@ define(function (require) {
 
 //              console.log('clicked');
 
+/*
               var a = $(e.target).closest('a');
 
               if (a.attr('id') == 'createUser') {
@@ -131,18 +132,22 @@ define(function (require) {
                   this.trigger('dataUsersDelete', {id: id});
 //                  console.log('dataUserDelete event triggered');
               }
-
+*/
               var btn = $(e.target).closest('button');
-
-              if (btn.attr('name') == 'delUser') {
+              var btnName = btn.attr('name');
+              if (btnName == 'delUser') {
                   var id = btn.data('user_db_id');
                   console.log('clicked delUser: ' + id);
                   this.trigger('dataUsersDelete', {id: id});
               }
-              else if (btn.attr('name') == 'editUser') {
+              else if (btnName == 'editUser') {
                   var id = btn.data('user_db_id');
                   console.log('clicked editUser: ' + id);
                   this.trigger('dataUser', {id: id});
+              }
+              else if (btnName == 'createUser') {
+                  console.log('clicked createUser');
+                  this.createUser(null);
               }
 
               else if (btn.attr('id') == 'btnSaveProfile') {

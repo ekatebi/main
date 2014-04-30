@@ -1,73 +1,74 @@
 // Karma configuration
-//
-// For all available config options and default values, see:
-// http://karma-runner.github.io/0.10/config/configuration-file.html
+// Generated on Wed Apr 30 2014 08:32:37 GMT-0400 (EDT)
 
-module.exports = function (config) {
-  'use strict';
+module.exports = function(config) {
+    config.set({
 
-  config.set({
+        // base path that will be used to resolve all patterns (eg. files, exclude)
+        basePath: '',
 
-    // base path, that will be used to resolve files and exclude
-    basePath: '',
 
-    // frameworks to use
-    frameworks: ['jasmine'],
+        // frameworks to use
+        // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+        frameworks: ['jasmine', 'requirejs'],
 
-    // list of files / patterns to load in the browser
-    files: [
-      // loaded without require
-      'app/bower_components/es5-shim/es5-shim.js',
-      'app/bower_components/es5-shim/es5-sham.js',
-      'app/bower_components/jquery/dist/jquery.js',
-      'app/bower_components/jasmine-jquery/lib/jasmine-jquery.js',
-      'app/bower_components/jasmine-flight/lib/jasmine-flight.js',
 
-      // hack to load RequireJS after the shim libs
-      'node_modules/karma-requirejs/lib/require.js',
-      'node_modules/karma-requirejs/lib/adapter.js',
+        // list of files / patterns to load in the browser
+        files: [
+            {pattern: 'app/js/**/*.js', included: false},
+            {pattern: 'test/spec/**/*.spec.js', included: false},
+            {pattern: 'app/bower_components/flight/lib/*.js', included: false},
+            {pattern: 'app/bower_components/underscore/*.js', included: false},
 
-      // loaded with require
-      {pattern: 'app/bower_components/flight/**/*.js', included: false},
-      {pattern: 'app/js/**/*.js', included: false},
-      {pattern: 'test/spec/**/*.spec.js', included: false},
+            {pattern: 'app/bower_components/jquery/dist/*.js', included: true},
+            {pattern: 'app/bower_components/jasmine-jquery/lib/*.js', included: true},
+            {pattern: 'app/bower_components/jasmine-flight/lib/*.js', included: true},
 
-      'test/test-main.js'
-    ],
+            'test-main.js'
+        ],
 
-    // list of files to exclude
-    exclude: [
-      'app/js/main.js'
-    ],
+        // list of files to exclude
+        exclude: [
+            'app/js/main.js'
+        ],
 
-    // test results reporter to use
-    // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress'],
 
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+        // preprocess matching files before serving them to the browser
+        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+        preprocessors: {
 
-    // Start these browsers, currently available:
-    // - Chrome
-    // - ChromeCanary
-    // - Firefox
-    // - Opera
-    // - Safari (only Mac)
-    // - PhantomJS
-    // - IE (only Windows)
-    browsers: [
-      'Chrome'
-    ],
+        },
 
-    // If browser does not capture in given timeout [ms], kill it
-    captureTimeout: 5000,
 
-    // Continuous Integration mode
-    // if true, it capture browsers, run tests and exit
-    singleRun: false,
+        // test results reporter to use
+        // possible values: 'dots', 'progress'
+        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+        reporters: ['progress'],
 
-    // Karma will report all the tests that are slower than given time limit (in
-    // ms).
-    reportSlowerThan: 500
-  });
+
+        // web server port
+        port: 9876,
+
+
+        // enable / disable colors in the output (reporters and logs)
+        colors: true,
+
+
+        // level of logging
+        // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+        logLevel: config.LOG_DEBUG,
+
+        // enable / disable watching file and executing tests whenever any file changes
+        autoWatch: true,
+
+
+        // start these browsers
+        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+        browsers: ['Chrome'],
+
+
+        // Continuous Integration mode
+        // if true, Karma captures browsers, runs the tests and exits
+        singleRun: false
+    });
 };

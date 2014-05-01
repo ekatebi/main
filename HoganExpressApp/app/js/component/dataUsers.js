@@ -20,12 +20,12 @@ define(function (require) {
    */
 
   function dataUsers() {
-
     this.defaultAttrs({
-
+        testMode: false,
+        forceError:false,
+        baseUrl: 'users',
+        todoItems: ['orig item']
     });
-
-      var baseUrl = '/users';
 
       this.triggerError = function(msg, textStatus, errorThrown)
       {
@@ -38,8 +38,8 @@ define(function (require) {
 //          console.log('addUpdateUser');
 //          console.log(data);
 
-          var url = baseUrl;
-          var ajaxType = 'POST';
+          var url = this.attr.baseUrl;
+          var verb = 'POST';
 
           if (data._id)
           {
@@ -47,29 +47,43 @@ define(function (require) {
           }
           else
           {
-              console.log('omit');
               data = _.omit(data, '_id');
-              ajaxType = 'PUT';
+              verb = 'PUT';
           }
 
           var id = data._id;
           var comp = this;
 
-          console.log('addUpdateUser,' + ajaxType + ',' + id + ',' + url);
+          console.log('addUpdateUser, verb: ' + verb + ',id: ' + id + ',url: ' + url);
           console.log(data);
+
+          if (this.attr.testMode)
+          {
+              console.log('testMode');
+              if (this.attr.forceError)
+              {
+                  console.log('forceError');
+                  comp.trigger('dataUserError', {msg: 'test error message'});
+                  return;
+              }
+
+              comp.trigger('dataUsersChanged');
+
+              return;
+          }
 
           $.ajax(
               {
-                  type: ajaxType,
+                  type: verb,
                   url: url,
                   dataType: 'json',
                   data: data,
                   success: function() {
-                      console.log('addUpdateUser (success),' + ajaxType + ',' + id);
+                      console.log('addUpdateUser (success), verb: ' + verb + ', id: ' + id);
                       comp.trigger('dataUsersChanged');
                   },
                   error: function(XMLHttpRequest, textStatus, errorThrown) {
-                      comp.triggerError( 'addUpdateUser,' + ajaxType + ',' + id, textStatus, errorThrown);
+                      comp.triggerError( 'addUpdateUser, verb: ' + verb + ', id: ' + id, textStatus, errorThrown);
                   }
               });
       }
@@ -84,23 +98,23 @@ define(function (require) {
               id = 'null';
           }
 
-          var ajaxType = 'DELETE';
-          var url = baseUrl + '/' + id;
+          var verb = 'DELETE';
+          var url = this.attr.baseUrl + '/' + id;
 
-          console.log('delUser,' + ajaxType + ',' + url);
+          console.log('delUser,' + verb + ',' + url);
 
           $.ajax(
               {
-                  type: ajaxType,
+                  type: verb,
                   url: url,
                   dataType: 'json',
 //                  data: id,
                   success: function(data) {
-                      console.log('delUser (success),' + ajaxType + ',' + id + ',' + data.msg);
+                      console.log('delUser (success), verb: ' + verb + ', id: ' + id + ',' + data.msg);
                       comp.trigger('dataUsersChanged');
                   },
                   error: function(XMLHttpRequest, textStatus, errorThrown) {
-                      comp.triggerError( 'addUpdateUser,' + ajaxType + ',' + id, textStatus, errorThrown);
+                      comp.triggerError( 'addUpdateUser, verb: ' + verb + ', id: ' + id, textStatus, errorThrown);
                   }
               });
 
@@ -111,7 +125,7 @@ define(function (require) {
           var comp = this;
           console.log('dataUsers: getUsers,');
 
-          var url = baseUrl;
+          var url = this.attr.baseUrl;
 
           $.ajax(
               {
@@ -133,7 +147,7 @@ define(function (require) {
           var comp = this;
           console.log('dataUsers: getUser,' + id);
 
-          var url = baseUrl + '/' + id;
+          var url = this.attr.baseUrl + '/' + id;
 
           $.ajax(
               {
@@ -152,7 +166,7 @@ define(function (require) {
 
       this.after('initialize', function () {
 
-          console.log('initialize dataUsers');
+          console.log('initialize dataUsers: ' + this.attr.todoItems);
 
           this.on(document, "dataUsers", this.getUsers);
           this.on(document, "dataUser", this.getUser);
@@ -163,6 +177,8 @@ define(function (require) {
                console.log('dataUsersTest');
               });
 
+          this.trigger("dataItems", {items: this.attr.todoItems});
+//          this.trigger(document, "dataItems", {items: ['old item']});
     });
   }
 

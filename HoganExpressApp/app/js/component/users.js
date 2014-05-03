@@ -67,7 +67,8 @@ define(function (require) {
           console.log('renderModal');
           console.log(parameters);
 
-          var NameOfTemplate = 'ProfileModalEx';
+//          var NameOfTemplate = 'ProfileModalEx';
+          var NameOfTemplate = 'ProfileModal';
           var renderedTemplate = templates[NameOfTemplate].render(parameters);
 
           this.select('ProfilePage').html(renderedTemplate);

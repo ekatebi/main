@@ -1,0 +1,61 @@
+
+<button ng-click="createUser()" type="button" class="btn btn-default btn-md" name="createUser" data-animation="am-fade-and-scale" data-toggle="modal" data-target="#basicModal">
+    <span class="glyphicon glyphicon-plus"></span>
+</button>
+
+[{{users.length}}]
+
+<br/>
+<br/>
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">App Users</div>
+
+    <table class="table" align="center">
+
+        <thead>
+            <tr>
+                <th>#</td>
+                <th>First Name</td>
+                <th>Last Name</td>
+                <th>email</td>
+                <th>Edit</td>
+                <th>Delete</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="user in users">
+                <td>
+                    {{$index + 1}}
+                </td>
+                <td>
+                    {{user.firstname}}
+                </td>
+                <td>
+                    {{user.lastname}}
+                </td>
+                <td>
+                    {{user.email}}
+                </td>
+
+                <td>
+                    <button ng-click="editUser(user._id)" type="button" class="btn btn-default btn-md" data-animation="am-fade-and-scale">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </td>
+
+                <td>
+                    <button ng-click="delUser(user._id)" type="button" class="btn btn-default btn-md" data-animation="am-fade-and-scale">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+
+            </tr>
+        </tbody>
+
+    </table>
+
+</div>
+

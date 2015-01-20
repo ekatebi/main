@@ -1,0 +1,72 @@
+<!-- This is the <em>{{name}}</em> page. (Users.mustache) -->
+
+
+<!--
+<a id="createUser" href="#"
+   data-toggle="modal"
+   data-target="#basicModal">Create User</a>
+-->
+
+<button type="button" class="btn btn-default btn-md" name="createUser" data-toggle="modal" data-target="#basicModal">
+    <span class="glyphicon glyphicon-plus"></span>
+</button>
+
+[{{users.length}}]
+
+<br/>
+<br/>
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">App Users</div>
+
+    <table class="table" align="center">
+
+        <tr>
+            <td><b>#</b></td>
+            <td><b>First Name</b></td>
+            <td><b>Last Name</b></td>
+            <td><b>email</b></td>
+            <td><b>Edit</b></td>
+            <td><b>Delete</b></td>
+        </tr>
+
+    {{#users}}
+        <tr>
+            <td>
+                <b>{{@index}}</b>
+            </td>
+            <td>
+                <b>{{firstname}}</b>
+            </td>
+            <td>
+                <b>{{lastname}}</b>
+            </td>
+            <td>
+                <b>{{email}}</b>
+            </td>
+<!--
+            <td><a href="#" class="editUser" data-user_db_id="{{_id}}">Edit</a></td>
+            <td><a href="#" class="delUser" data-user_db_id="{{_id}}">Delete</a></td>
+-->
+            <td>
+                <button type="button" class="btn btn-default btn-md" name="editUser" data-user_db_id="{{_id}}">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </td>
+            <td>
+            <button type="button" class="btn btn-default btn-md" name="delUser" data-user_db_id="{{_id}}">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+            </td>
+        </tr>
+    {{/users}}
+
+</table>
+
+</div>
+
+<div id="ProfilePage">
+    <p></p>
+</div>
+

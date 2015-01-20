@@ -1,0 +1,8 @@
+sudo npm install -g express
+sudo npm install -g express-generator
+mkdir plntrSvr && cd $_
+express -H .
+npm install
+npm start
+
+yo angular:app
